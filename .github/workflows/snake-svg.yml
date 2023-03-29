@@ -1,9 +1,9 @@
 name: generate snake animation
 
 on:
-  # run automatically every 24 hours
+  # run automatically every 2 hours
   schedule:
-    - cron: "0 */24 * * *" 
+    - cron: "0 */2 * * *" 
   
   # allows to manually run the job at any time
   workflow_dispatch:
@@ -21,6 +21,11 @@ jobs:
     timeout-minutes: 10
     
     steps:
+      # cloning
+      - name: cloning repo
+        run: | 
+          git clone --branch snakes https://github.com/benzlokzik/benzlokzik 
+          cd benzlokzik
       # generates a snake game from a github user (<github_user_name>) contributions graph, output a svg animation at <svg_out_path>
       - name: generate github-contribution-grid-snake.svg
         uses: Platane/snk/svg-only@v2
