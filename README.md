@@ -1,4 +1,3 @@
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/benzlokzik/benzlokzik/blob/snakes/github-contribution-grid-snake-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/benzlokzik/benzlokzik/blob/snakes/github-contribution-grid-snake.svg" />
@@ -27,6 +26,9 @@ Here are some ideas to get you started:
 - 💜 I'm trying romanticize programming
 - 💬 Ask me about anything [here](https://github.com/benzlokzik/benzlokzik/issues)
 
+---
+
+
 
 <details>
   
@@ -39,3 +41,4 @@ Here are some ideas to get you started:
 | <picture> <source srcset="https://streak-stats.demolab.com?user=benzlokzik&theme=monokai&hide_border=true" media="(prefers-color-scheme: dark)"/><source srcset="https://streak-stats.demolab.com?user=benzlokzik&theme=buefy&hide_border=true" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/> <img src="https://streak-stats.demolab.com?user=benzlokzik&theme=buefy&hide_border=true" /> </picture> | <picture><source   srcset="https://streak-stats.demolab.com?user=benzlokzik&theme=monokai&hide_border=true&locale=hy"  media="(prefers-color-scheme: dark)"/><source  srcset="https://streak-stats.demolab.com?user=benzlokzik&theme=buefy&hide_border=true&locale=hy"  media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/><img src="https://streak-stats.demolab.com?user=benzlokzik&theme=buefy&hide_border=true&locale=hy" /></picture> |
   
 </details>
+
