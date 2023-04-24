@@ -5,6 +5,12 @@
 </picture>
 <br/> <br/>
 
+Wow, you're number
+
+<picture>
+<img src="https://profile-counter.glitch.me/benzlokzik/count.svg" />
+</picture>
+
 ### Hi there 👋
 
 <!--
