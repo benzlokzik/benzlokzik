@@ -5,13 +5,15 @@
 </picture>
 <br/> <br/>
 
-Wow, you're number
-
-<picture>
-<img src="https://profile-counter.glitch.me/benzlokzik/count.svg" />
-</picture>
 
 ### Hi there 👋
+
+
+###### **Wow, you're visitor number**
+
+<img src="https://profile-counter.glitch.me/benzlokzik/count.svg" />
+
+
 
 <!--
 **benzlokzik/benzlokzik** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
