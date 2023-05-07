@@ -39,9 +39,11 @@ Here are some ideas to get you started:
 
 
 <details>
- 
+
 <summary>:eyes: Show badges</summary>
  <br/>
+ <img src="https://gpvc.arturio.dev/benzlokzik" align="center">
+ <br/> <br/>
  
 | <picture> <source srcset="https://github-readme-stats.vercel.app/api?username=benzlokzik&show_icons=true&include_all_commits=true&hide_border=true&theme=monokai" media="(prefers-color-scheme: dark)"/><source srcset="https://github-readme-stats.vercel.app/api?username=benzlokzik&show_icons=true&include_all_commits=true&hide_border=true&theme=buefy" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/> <img src="https://github-readme-stats.vercel.app/api?username=benzlokzik&show_icons=true&include_all_commits=true&hide_border=true&theme=buefy" /> </picture> | <picture><source srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=benzlokzik&layout=compact&hide_border=true&theme=monokai" media="(prefers-color-scheme: dark)"/><source srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=benzlokzik&layout=compact&hide_border=true&theme=buefy" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/><img src="https://github-readme-stats.vercel.app/api?username=benzlokzik&show_icons=true" /></picture> |
 | ------------- | ------------- |
@@ -49,4 +51,3 @@ Here are some ideas to get you started:
 | <picture> <source srcset="https://streak-stats.demolab.com?user=benzlokzik&theme=monokai&hide_border=true" media="(prefers-color-scheme: dark)"/><source srcset="https://streak-stats.demolab.com?user=benzlokzik&theme=buefy&hide_border=true" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/> <img src="https://streak-stats.demolab.com?user=benzlokzik&theme=buefy&hide_border=true" /> </picture> | <picture><source srcset="https://streak-stats.demolab.com?user=benzlokzik&theme=monokai&hide_border=true&locale=hy" media="(prefers-color-scheme: dark)"/><source srcset="https://streak-stats.demolab.com?user=benzlokzik&theme=buefy&hide_border=true&locale=hy" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/><img src="https://streak-stats.demolab.com?user=benzlokzik&theme=buefy&hide_border=true&locale=hy"/></picture> |
  
 </details>
-
