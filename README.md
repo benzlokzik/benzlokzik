@@ -30,7 +30,7 @@ Here are some ideas to get you started:
 **About me**
 
 - 🌱 I’m currently learning [Python](https://github.com/topics/python) and [Rust](https://github.com/topics/rust)
-- 💜 I'm trying romanticize programming
+- 💜 I'm trying to romanticize programming
 - 💬 Ask me about anything [here](https://github.com/benzlokzik/benzlokzik/issues)
 
 ---
