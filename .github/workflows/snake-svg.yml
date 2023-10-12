@@ -43,7 +43,7 @@ jobs:
           mkdir -p ./img
           cp dist/*.svg ./img/
 
-       # Download images using curl and save them to the ./img directory
+      # Download images using curl and save them to the ./img directory
       - name: Download images and save to ./img
         if: always()
         run: |
@@ -56,9 +56,9 @@ jobs:
 
           # Download the stats SVGs
           # Theme: monokai
-          curl -O ./img/github-readme-stats-monokai.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=monokai"
+          curl -s -o./img/github-readme-stats-monokai.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=monokai"
           # Theme: buefy
-          curl -O ./img/github-readme-stats-buefy.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=buefy"
+          curl -s -o./img/github-readme-stats-buefy.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=buefy"
 
           BASE_URL_LANGS="https://github-readme-stats-benzlokzik.vercel.app/api/top-langs/"
           PARAMS_LANGS="?username=benzlokzik"
@@ -68,9 +68,9 @@ jobs:
 
           # Download the top-langs SVGs
           # Theme: monokai
-          curl -O ./img/github-top-langs-monokai.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=monokai"
+          curl -s -o./img/github-top-langs-monokai.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=monokai"
           # Theme: buefy
-          curl -O ./img/github-top-langs-buefy.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy"
+          curl -s -o./img/github-top-langs-buefy.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy"
 
 
       # Commit and push the SVGs to the repository
