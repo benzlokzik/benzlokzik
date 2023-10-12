@@ -27,6 +27,7 @@ jobs:
 
       # Generates a snake game from a GitHub user's contributions graph, outputting an svg animation
       - name: generate github-contribution-grid-snake.svg
+        id: generate-snake
         uses: Platane/snk/svg-only@v3.0.0
         with:
           github_user_name: ${{ github.repository_owner }}
@@ -35,6 +36,15 @@ jobs:
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # Add a step to cache the dist directory
+      - name: Cache generated images
+        uses: actions/cache@v2
+        with:
+          path: dist
+          key: ${{ runner.os }}-dist-${{ steps.generate-snake.outputs.cache-hash }}
+          restore-keys: |
+            ${{ runner.os }}-dist-
 
       # Copy the generated SVGs to the ./img directory in the project root
       - name: Copy SVGs to ./img
