@@ -35,6 +35,7 @@ jobs:
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true  # This ensures that if this step fails, the subsequent steps will still run.
 
       # Copy the generated SVGs to the ./img directory in the project root
       - name: Copy SVGs to ./img
@@ -42,13 +43,43 @@ jobs:
           mkdir -p ./img
           cp dist/*.svg ./img/
 
+       # Download images using curl and save them to the ./img directory
+      - name: Download images and save to ./img
+        if: always()
+        run: |
+          BASE_URL_STATS="https://github-readme-stats-benzlokzik.vercel.app/api"
+          PARAMS_STATS="?username=benzlokzik"
+          PARAMS_STATS="${PARAMS_STATS}&show_icons=true"
+          PARAMS_STATS="${PARAMS_STATS}&include_all_commits=true"
+          PARAMS_STATS="${PARAMS_STATS}&show=reviews,discussions_started,discussions_answered,prs_merged,prs_merged_percentage"
+          PARAMS_STATS="${PARAMS_STATS}&hide_border=true"
+
+          # Download the stats SVGs
+          # Theme: monokai
+          curl -O ./img/github-readme-stats-monokai.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=monokai"
+          # Theme: buefy
+          curl -O ./img/github-readme-stats-buefy.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=buefy"
+
+          BASE_URL_LANGS="https://github-readme-stats-benzlokzik.vercel.app/api/top-langs/"
+          PARAMS_LANGS="?username=benzlokzik"
+          PARAMS_LANGS="${PARAMS_LANGS}&layout=compact"
+          PARAMS_LANGS="${PARAMS_LANGS}&langs_count=12"
+          PARAMS_LANGS="${PARAMS_LANGS}&hide_border=true"
+
+          # Download the top-langs SVGs
+          # Theme: monokai
+          curl -O ./img/github-top-langs-monokai.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=monokai"
+          # Theme: buefy
+          curl -O ./img/github-top-langs-buefy.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy"
+
+
       # Commit and push the SVGs to the repository
       - name: Commit and push SVGs
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add ./img/
-          git commit -m "Add generated snake SVGs to \`./img\` directory at \`$(date +"%Y-%m-%d %H:%M:%S")\`"
+          git commit -m "Add generated and downloaded SVGs to \`./img\` directory at \`$(date +"%Y-%m-%d %H:%M:%S")\`" || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
