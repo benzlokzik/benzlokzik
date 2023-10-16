@@ -14,9 +14,11 @@ on:
       - main
 
 jobs:
-  generate:
+  generate-snake:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      status: ${{ steps.generate-snake-status.outputs.result }}
     
     steps:
       # Check out the repository
@@ -26,6 +28,7 @@ jobs:
       # Generates a snake game from a GitHub user's contributions graph, outputting an svg animation
       - name: generate github-contribution-grid-snake.svg
         uses: Platane/snk/svg-only@v3.0.0
+        id: generate-snake
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
@@ -33,7 +36,11 @@ jobs:
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true  # This ensures that if this step fails, the subsequent steps will still run.
+        continue-on-error: true
+
+      - name: Set generate-snake status
+        id: generate-snake-status
+        run: echo "::set-output name=result::${{ steps.generate-snake.outcome }}"
 
       # Copy the generated SVGs to the ./img directory in the project root
       - name: Copy SVGs to ./img
@@ -41,9 +48,20 @@ jobs:
           mkdir -p ./img
           cp dist/*.svg ./img/
 
+  download-images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      status: ${{ steps.download-images-status.outputs.result }}
+
+    steps:
+      # Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       # Create necessary directories and download images using curl
       - name: Create directories and download images
-        if: always()
+        id: download-images
         run: |
           mkdir -p ./img/github-stats/monokai
           mkdir -p ./img/github-stats/buefy
@@ -86,6 +104,25 @@ jobs:
           curl -s -o./img/streak-stats/buefy/streak-stats-buefy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
           curl -s -o./img/streak-stats/monokai/streak-stats-monokai-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=hy"
           curl -s -o./img/streak-stats/buefy/streak-stats-buefy-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=hy"
+
+        continue-on-error: true
+
+      - name: Set download-images status
+        id: download-images-status
+        run: echo "::set-output name=result::${{ steps.download-images.outcome }}"
+
+  commit-and-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [generate-snake, download-images]  # This job depends on the completion of the previous two jobs
+    if: |
+      needs.generate-snake.outputs.status == 'success' || 
+      needs.download-images.outputs.status == 'success'
+
+    steps:
+      # Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       # Commit and push the SVGs to the repository
       - name: Commit and push SVGs
