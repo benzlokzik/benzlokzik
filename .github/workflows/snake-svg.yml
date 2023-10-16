@@ -87,12 +87,12 @@ jobs:
           # Theme: buefy, Locale: ru, Mode: weekly
           curl -s -o./img/streak-stats-buefy-ru-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=ru&mode=weekly"
 
-          # Theme: monokai
+          # Theme: monokai, Mode: daily
           curl -s -o./img/streak-stats-monokai.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}"
           # Theme: buefy
           curl -s -o./img/streak-stats-buefy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
 
-          # Theme: monokai, Locale: hy
+          # Theme: monokai, Locale: hy, Mode: daily
           curl -s -o./img/streak-stats-monokai-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=hy"
           # Theme: buefy, Locale: hy
           curl -s -o./img/streak-stats-buefy-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=hy"
