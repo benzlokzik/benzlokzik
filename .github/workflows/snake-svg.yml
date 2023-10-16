@@ -1,4 +1,4 @@
-name: generate snake animation
+name: generate snake animation and download images
 
 on:
   # run automatically every 18 hours
@@ -130,7 +130,7 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add ./img/
-          git commit -m "Add generated and downloaded SVGs to \`./img\` directory at \`$(date +"%Y-%m-%d %H:%M:%S")\`" || echo "No changes to commit"
+          git commit -m "Update SVGs in \`./img\` at \`$(date +"%Y-%m-%d %H:%M:%S")\`" || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
