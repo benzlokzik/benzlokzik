@@ -17,8 +17,6 @@ jobs:
   generate-snake:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    outputs:
-      status: ${{ steps.generate-snake-status.outputs.result }}
     
     steps:
       # Check out the repository
@@ -38,9 +36,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-      - name: Set generate-snake status
-        id: generate-snake-status
-        run: echo "::set-output name=result::${{ steps.generate-snake.outcome }}"
 
       # Copy the generated SVGs to the ./img directory in the project root
       - name: Copy SVGs to ./img
@@ -48,11 +43,15 @@ jobs:
           mkdir -p ./img
           cp dist/*.svg ./img/
 
+      - name: Upload generated snakes SVGs as artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: svg-artifacts
+          path: ./img
+
   download-images:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    outputs:
-      status: ${{ steps.download-images-status.outputs.result }}
 
     steps:
       # Check out the repository
@@ -107,22 +106,29 @@ jobs:
 
         continue-on-error: true
 
-      - name: Set download-images status
-        id: download-images-status
-        run: echo "::set-output name=result::${{ steps.download-images.outcome }}"
+      - name: Upload downloaded SVGs as artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: svg-artifacts
+          path: ./img
 
   commit-and-push:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: [generate-snake, download-images]  # This job depends on the completion of the previous two jobs
     if: |
-      needs.generate-snake.outputs.status == 'success' || 
-      needs.download-images.outputs.status == 'success'
+      always()
 
     steps:
       # Check out the repository
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Download SVGs from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: svg-artifacts
+          path: ./img
 
       # Commit and push the SVGs to the repository
       - name: Commit and push SVGs
