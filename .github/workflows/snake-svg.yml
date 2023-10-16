@@ -72,6 +72,32 @@ jobs:
           # Theme: buefy
           curl -s -o./img/github-top-langs-buefy.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy"
 
+          BASE_URL_STREAK="https://streak-stats.demolab.com"
+          USER="benzlokzik"
+          HIDE_BORDER="&hide_border=true"
+
+          # Download the streak-stats SVGs
+          # Theme: monokai, Mode: weekly
+          curl -s -o./img/streak-stats-monokai-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&mode=weekly"
+          # Theme: buefy, Mode: weekly
+          curl -s -o./img/streak-stats-buefy-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&mode=weekly"
+
+          # Theme: monokai, Locale: ru, Mode: weekly
+          curl -s -o./img/streak-stats-monokai-ru-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=ru&mode=weekly"
+          # Theme: buefy, Locale: ru, Mode: weekly
+          curl -s -o./img/streak-stats-buefy-ru-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=ru&mode=weekly"
+
+          # Theme: monokai, Mode: daily
+          curl -s -o./img/streak-stats-monokai.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}"
+          # Theme: buefy
+          curl -s -o./img/streak-stats-buefy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
+
+          # Theme: monokai, Locale: hy, Mode: daily
+          curl -s -o./img/streak-stats-monokai-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=hy"
+          # Theme: buefy, Locale: hy
+          curl -s -o./img/streak-stats-buefy-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=hy"
+
+
 
       # Commit and push the SVGs to the repository
       - name: Commit and push SVGs
