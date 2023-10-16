@@ -13,8 +13,6 @@ on:
     branches:
       - main
 
-
-
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -43,10 +41,17 @@ jobs:
           mkdir -p ./img
           cp dist/*.svg ./img/
 
-      # Download images using curl and save them to the ./img directory
-      - name: Download images and save to ./img
+      # Create necessary directories and download images using curl
+      - name: Create directories and download images
         if: always()
         run: |
+          mkdir -p ./img/github-stats/monokai
+          mkdir -p ./img/github-stats/buefy
+          mkdir -p ./img/top-langs/monokai
+          mkdir -p ./img/top-langs/buefy
+          mkdir -p ./img/streak-stats/monokai
+          mkdir -p ./img/streak-stats/buefy
+          
           BASE_URL_STATS="https://github-readme-stats-benzlokzik.vercel.app/api"
           PARAMS_STATS="?username=benzlokzik"
           PARAMS_STATS="${PARAMS_STATS}&show_icons=true"
@@ -55,10 +60,8 @@ jobs:
           PARAMS_STATS="${PARAMS_STATS}&hide_border=true"
 
           # Download the stats SVGs
-          # Theme: monokai
-          curl -s -o./img/github-readme-stats-monokai.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=monokai"
-          # Theme: buefy
-          curl -s -o./img/github-readme-stats-buefy.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=buefy"
+          curl -s -o./img/github-stats/monokai/github-readme-stats-monokai.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=monokai"
+          curl -s -o./img/github-stats/buefy/github-readme-stats-buefy.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=buefy"
 
           BASE_URL_LANGS="https://github-readme-stats-benzlokzik.vercel.app/api/top-langs/"
           PARAMS_LANGS="?username=benzlokzik"
@@ -67,37 +70,22 @@ jobs:
           PARAMS_LANGS="${PARAMS_LANGS}&hide_border=true"
 
           # Download the top-langs SVGs
-          # Theme: monokai
-          curl -s -o./img/github-top-langs-monokai.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=monokai"
-          # Theme: buefy
-          curl -s -o./img/github-top-langs-buefy.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy"
+          curl -s -o./img/top-langs/monokai/github-top-langs-monokai.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=monokai"
+          curl -s -o./img/top-langs/buefy/github-top-langs-buefy.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy"
 
           BASE_URL_STREAK="https://streak-stats.demolab.com"
           USER="benzlokzik"
           HIDE_BORDER="&hide_border=true"
 
           # Download the streak-stats SVGs
-          # Theme: monokai, Mode: weekly
-          curl -s -o./img/streak-stats-monokai-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&mode=weekly"
-          # Theme: buefy, Mode: weekly
-          curl -s -o./img/streak-stats-buefy-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&mode=weekly"
-
-          # Theme: monokai, Locale: ru, Mode: weekly
-          curl -s -o./img/streak-stats-monokai-ru-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=ru&mode=weekly"
-          # Theme: buefy, Locale: ru, Mode: weekly
-          curl -s -o./img/streak-stats-buefy-ru-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=ru&mode=weekly"
-
-          # Theme: monokai, Mode: daily
-          curl -s -o./img/streak-stats-monokai.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}"
-          # Theme: buefy
-          curl -s -o./img/streak-stats-buefy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
-
-          # Theme: monokai, Locale: hy, Mode: daily
-          curl -s -o./img/streak-stats-monokai-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=hy"
-          # Theme: buefy, Locale: hy
-          curl -s -o./img/streak-stats-buefy-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=hy"
-
-
+          curl -s -o./img/streak-stats/monokai/streak-stats-monokai-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&mode=weekly"
+          curl -s -o./img/streak-stats/buefy/streak-stats-buefy-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&mode=weekly"
+          curl -s -o./img/streak-stats/monokai/streak-stats-monokai-ru-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=ru&mode=weekly"
+          curl -s -o./img/streak-stats/buefy/streak-stats-buefy-ru-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=ru&mode=weekly"
+          curl -s -o./img/streak-stats/monokai/streak-stats-monokai.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}"
+          curl -s -o./img/streak-stats/buefy/streak-stats-buefy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
+          curl -s -o./img/streak-stats/monokai/streak-stats-monokai-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=hy"
+          curl -s -o./img/streak-stats/buefy/streak-stats-buefy-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=hy"
 
       # Commit and push the SVGs to the repository
       - name: Commit and push SVGs
