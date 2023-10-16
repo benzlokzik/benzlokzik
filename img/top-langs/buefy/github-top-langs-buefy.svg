@@ -62,24 +62,24 @@
     
 
           
-    /* Animations */
-    @keyframes scaleInAnimation {
-      from {
-        transform: translate(-5px, 5px) scale(0);
+      /* Animations */
+      @keyframes scaleInAnimation {
+        from {
+          transform: translate(-5px, 5px) scale(0);
+        }
+        to {
+          transform: translate(-5px, 5px) scale(1);
+        }
       }
-      to {
-        transform: translate(-5px, 5px) scale(1);
+      @keyframes fadeInAnimation {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
-    }
-    @keyframes fadeInAnimation {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-  
+    
           
         </style>
 
@@ -121,10 +121,10 @@
     <svg data-testid="lang-items" x="25">
       
   
-  <mask id="rect-mask">
-      <rect x="0" y="0" width="250" height="8" fill="white" rx="5"/>
-    </mask>
-    
+      <mask id="rect-mask">
+          <rect x="0" y="0" width="250" height="8" fill="white" rx="5"/>
+        </mask>
+        
         <rect
           mask="url(#rect-mask)"
           data-testid="lang-progress"
@@ -245,7 +245,7 @@
           fill="#384d54"
         />
       
-  
+      
     <g transform="translate(0, 25)">
       <g transform="translate(0, 0)"><g transform="translate(0, 0)">
     <g class="stagger" style="animation-delay: 450ms">
