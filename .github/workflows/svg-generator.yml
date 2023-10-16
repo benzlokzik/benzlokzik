@@ -41,7 +41,8 @@ jobs:
       - name: Copy SVGs to ./img
         run: |
           mkdir -p ./img
-          cp dist/*.svg ./img/
+          mkdir -p ./img/grid-snakes
+          cp dist/*.svg ./img/grid-snakes
 
       - name: Upload generated snakes SVGs as artifacts
         uses: actions/upload-artifact@v2
