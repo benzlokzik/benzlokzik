@@ -54,3 +54,107 @@ Here are some ideas to get you started:
 |           <picture> <source srcset="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/monokai/streak-stats-monokai.svg" media="(prefers-color-scheme: dark)"/><source srcset="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/buefy/streak-stats-buefy.svg" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/> <img src="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/buefy/streak-stats-buefy.svg" /> </picture>            |            <picture><source srcset="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/monokai/streak-stats-monokai-hy.svg" media="(prefers-color-scheme: dark)"/><source srcset="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/buefy/streak-stats-buefy-hy.svg" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/><img src="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/buefy/streak-stats-buefy-hy.svg"/></picture>            |
 
 </details>
+
+<br/> <br/>
+
+<details> 
+<summary>:zap: My interests</summary> <br/> 
+
+```mermaid
+graph TD
+    A[benzlokzik]
+    B[C++]
+    C1[C++ Libraries]
+    C2[GTests]
+    C3[SFML]
+    C4[stb_image]
+    C5[libarchive]
+    D[Python Poetry]
+    E1[Python Libraries]
+    E2[Python Frameworks]
+    E3[Python Unittests]
+    E4[numpy]
+    E5[pandas]
+    E6[requests]
+    E7[Flask]
+    E8[TensorFlow]
+    E9[matplotlib]
+    E10[scikit-learn]
+    F[Rust]
+    G[Docker]
+    H[FastAPI]
+    I[Backend]
+    J[DevOps]
+    K[GitHub Actions]
+    L[Pipelines]
+    M[Database]
+    N[SQL]
+    O[SurrealDB]
+    P[SurrealQL]
+    Q[PostgreSQL]
+    R[CI/CD]
+    S[WASM]
+    T[REST API]
+    U[GitHub]
+    V[Git]
+    W[Operating Systems]
+    X[Manjaro]
+    Y[Ubuntu]
+    Z[Debian]
+    AA[Windows]
+    
+    A --> B
+    A --> D
+    A --> F
+    A --> G
+    A --> H
+    A --> I
+    A --> J
+    A --> M
+    A --> R
+    A --> S
+    A --> T
+    A --> U
+    A --> V
+    A --> W
+    
+    B --> C1
+    C1 --> C2
+    C1 --> C3
+    C1 --> C4
+    C1 --> C5
+    
+    D --> E1
+    E1 --> E4
+    E1 --> E5
+    E1 --> E6
+    E1 --> E7
+    E1 --> E8
+    E1 --> E9
+    E1 --> E10
+    D --> E2
+    D --> E3
+    
+    I --> H
+    I --> G
+    I --> T
+    
+    J --> K
+    J --> L
+    J --> G
+    J --> R
+    
+    M --> N
+    M --> O
+    O --> P
+    N --> Q
+    
+    W --> X
+    W --> Y
+    W --> Z
+    W --> AA
+    
+    style A fill:#f9a825,stroke:#333,stroke-width:2px;
+```
+
+</details>
