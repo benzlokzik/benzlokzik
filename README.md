@@ -54,3 +54,92 @@ Here are some ideas to get you started:
 |           <picture> <source srcset="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/monokai/streak-stats-monokai.svg" media="(prefers-color-scheme: dark)"/><source srcset="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/buefy/streak-stats-buefy.svg" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/> <img src="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/buefy/streak-stats-buefy.svg" /> </picture>            |            <picture><source srcset="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/monokai/streak-stats-monokai-hy.svg" media="(prefers-color-scheme: dark)"/><source srcset="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/buefy/streak-stats-buefy-hy.svg" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/><img src="https://raw.githubusercontent.com/benzlokzik/benzlokzik/main/img/streak-stats/buefy/streak-stats-buefy-hy.svg"/></picture>            |
 
 </details>
+
+<br/> <br/>
+
+<details> 
+<summary>:zap: My interests</summary> <br/> 
+
+```mermaid
+graph TD
+    A[benzlokzik]
+    B[C++]
+    C1[C++ Libraries]
+    C2[GTests]
+    C3[SFML]
+    C4[stb_image]
+    C5[libarchive]
+    D[Python Poetry]
+    E1[Python Libraries]
+    E2[Python Frameworks]
+    E3[Python Unittests]
+    F[Rust]
+    G[Docker]
+    H[FastAPI]
+    I[Backend]
+    J[DevOps]
+    K[GitHub Actions]
+    L[Pipelines]
+    M[Database]
+    N[SQL]
+    O[NoSQL]
+    P[PostgreSQL]
+    Q[SurrealDB]
+    R[Operating Systems]
+    S[Manjaro]
+    T[Ubuntu]
+    U[Debian]
+    V[Windows]
+    W[CI/CD]
+    X[WASM]
+    Y[REST API]
+    Z[GitHub]
+    AA[Git]
+    
+    A --> B
+    A --> D
+    A --> F
+    A --> G
+    A --> H
+    A --> I
+    A --> J
+    A --> M
+    A --> R
+    A --> W
+    A --> X
+    A --> Y
+    A --> Z
+    A --> AA
+    
+    B --> C1
+    C1 --> C2
+    C1 --> C3
+    C1 --> C4
+    C1 --> C5
+    
+    D --> E1
+    D --> E2
+    D --> E3
+    
+    I -->|APIs| H
+    I -->|APIs| Y
+    
+    J --> K
+    J --> L
+    J --> W
+    
+    M --> N
+    M --> O
+    M --> P
+    M --> Q
+    
+    R --> S
+    R --> T
+    R --> U
+    R --> V
+    
+    style A fill:#f9a825,stroke:#333,stroke-width:2px;
+    style B,C1,C2,C3,C4,C5,D,E1,E2,E3,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,AA fill:#e0e0e0,stroke:#333,stroke-width:1px;
+```
+
+</details>
