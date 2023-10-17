@@ -73,6 +73,13 @@ graph TD
     E1[Python Libraries]
     E2[Python Frameworks]
     E3[Python Unittests]
+    E4[numpy]
+    E5[pandas]
+    E6[requests]
+    E7[Flask]
+    E8[TensorFlow]
+    E9[matplotlib]
+    E10[scikit-learn]
     F[Rust]
     G[Docker]
     H[FastAPI]
@@ -82,19 +89,19 @@ graph TD
     L[Pipelines]
     M[Database]
     N[SQL]
-    O[NoSQL]
-    P[PostgreSQL]
-    Q[SurrealDB]
-    R[Operating Systems]
-    S[Manjaro]
-    T[Ubuntu]
-    U[Debian]
-    V[Windows]
-    W[CI/CD]
-    X[WASM]
-    Y[REST API]
-    Z[GitHub]
-    AA[Git]
+    O[SurrealDB]
+    P[SurrealQL]
+    Q[PostgreSQL]
+    R[CI/CD]
+    S[WASM]
+    T[REST API]
+    U[GitHub]
+    V[Git]
+    W[Operating Systems]
+    X[Manjaro]
+    Y[Ubuntu]
+    Z[Debian]
+    AA[Windows]
     
     A --> B
     A --> D
@@ -105,11 +112,11 @@ graph TD
     A --> J
     A --> M
     A --> R
+    A --> S
+    A --> T
+    A --> U
+    A --> V
     A --> W
-    A --> X
-    A --> Y
-    A --> Z
-    A --> AA
     
     B --> C1
     C1 --> C2
@@ -118,28 +125,36 @@ graph TD
     C1 --> C5
     
     D --> E1
+    E1 --> E4
+    E1 --> E5
+    E1 --> E6
+    E1 --> E7
+    E1 --> E8
+    E1 --> E9
+    E1 --> E10
     D --> E2
     D --> E3
     
-    I -->|APIs| H
-    I -->|APIs| Y
+    I --> H
+    I --> G
+    I --> T
     
     J --> K
     J --> L
-    J --> W
+    J --> G
+    J --> R
     
     M --> N
     M --> O
-    M --> P
-    M --> Q
+    O --> P
+    N --> Q
     
-    R --> S
-    R --> T
-    R --> U
-    R --> V
+    W --> X
+    W --> Y
+    W --> Z
+    W --> AA
     
     style A fill:#f9a825,stroke:#333,stroke-width:2px;
-    style B,C1,C2,C3,C4,C5,D,E1,E2,E3,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,AA fill:#e0e0e0,stroke:#333,stroke-width:1px;
 ```
 
 </details>
