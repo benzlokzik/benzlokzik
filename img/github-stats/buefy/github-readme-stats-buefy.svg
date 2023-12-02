@@ -9,7 +9,7 @@
         aria-labelledby="descId"
       >
         <title id="titleId">benzlokzik's GitHub Stats, Rank: B</title>
-        <desc id="descId">Total Stars Earned: 14, Total Commits  : 14, Total PRs: 63, Total PRs Merged: 54, Merged PRs Percentage: 85.71, Total PRs Reviewed: 10, Total Issues: 18, Total Discussions Started: 0, Total Discussions Answered: 0, Contributed to (last year): 15</desc>
+        <desc id="descId">Total Stars Earned: 14, Total Commits  : 14, Total PRs: 61, Total PRs Merged: 53, Merged PRs Percentage: 86.89, Total PRs Reviewed: 10, Total Issues: 18, Total Discussions Started: 0, Total Discussions Answered: 0, Contributed to (last year): 14</desc>
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
@@ -73,7 +73,7 @@
         stroke-dashoffset: 251.32741228718345;
       }
       to {
-        stroke-dashoffset: 133.19326342112308;
+        stroke-dashoffset: 133.94641754967535;
       }
     }
   
@@ -177,7 +177,7 @@
         x="219.01"
         y="12.5"
         data-testid="commits"
-      >898</text>
+      >897</text>
     </g>
   </g><g transform="translate(0, 50)">
     <g class="stagger" style="animation-delay: 750ms" transform="translate(25, 0)">
@@ -192,7 +192,7 @@
         x="219.01"
         y="12.5"
         data-testid="prs"
-      >63</text>
+      >61</text>
     </g>
   </g><g transform="translate(0, 75)">
     <g class="stagger" style="animation-delay: 900ms" transform="translate(25, 0)">
@@ -207,7 +207,7 @@
         x="219.01"
         y="12.5"
         data-testid="prs_merged"
-      >54</text>
+      >53</text>
     </g>
   </g><g transform="translate(0, 100)">
     <g class="stagger" style="animation-delay: 1050ms" transform="translate(25, 0)">
@@ -222,7 +222,7 @@
         x="219.01"
         y="12.5"
         data-testid="prs_merged_percentage"
-      >85.71 %</text>
+      >86.89 %</text>
     </g>
   </g><g transform="translate(0, 125)">
     <g class="stagger" style="animation-delay: 1200ms" transform="translate(25, 0)">
@@ -297,7 +297,7 @@
         x="219.01"
         y="12.5"
         data-testid="contribs"
-      >15</text>
+      >14</text>
     </g>
   </g>
     </svg>
