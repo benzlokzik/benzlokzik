@@ -9,7 +9,7 @@
         aria-labelledby="descId"
       >
         <title id="titleId">benzlokzik's GitHub Stats, Rank: B</title>
-        <desc id="descId">Total Stars Earned: 15, Total Commits  : 15, Total PRs: 66, Total PRs Merged: 57, Merged PRs Percentage: 86.36, Total PRs Reviewed: 10, Total Issues: 19, Total Discussions Started: 0, Total Discussions Answered: 0, Contributed to (last year): 15</desc>
+        <desc id="descId">Total Stars Earned: 15, Total Commits  : 15, Total PRs: 66, Total PRs Merged: 58, Merged PRs Percentage: 87.88, Total PRs Reviewed: 10, Total Issues: 19, Total Discussions Started: 0, Total Discussions Answered: 0, Contributed to (last year): 15</desc>
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
@@ -73,7 +73,7 @@
         stroke-dashoffset: 251.32741228718345;
       }
       to {
-        stroke-dashoffset: 129.94577476743956;
+        stroke-dashoffset: 129.93066724290802;
       }
     }
   
@@ -177,7 +177,7 @@
         x="219.01"
         y="12.5"
         data-testid="commits"
-      >942</text>
+      >943</text>
     </g>
   </g><g transform="translate(0, 50)">
     <g class="stagger" style="animation-delay: 750ms" transform="translate(25, 0)">
@@ -207,7 +207,7 @@
         x="219.01"
         y="12.5"
         data-testid="prs_merged"
-      >57</text>
+      >58</text>
     </g>
   </g><g transform="translate(0, 100)">
     <g class="stagger" style="animation-delay: 1050ms" transform="translate(25, 0)">
@@ -222,7 +222,7 @@
         x="219.01"
         y="12.5"
         data-testid="prs_merged_percentage"
-      >86.36 %</text>
+      >87.88 %</text>
     </g>
   </g><g transform="translate(0, 125)">
     <g class="stagger" style="animation-delay: 1200ms" transform="translate(25, 0)">
