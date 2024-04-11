@@ -9,7 +9,7 @@
         aria-labelledby="descId"
       >
         <title id="titleId">benzlokzik's GitHub Stats, Rank: B</title>
-        <desc id="descId">Total Stars Earned: 15, Total Commits  : 15, Total PRs: 73, Total PRs Merged: 64, Merged PRs Percentage: 87.67, Total PRs Reviewed: 10, Total Issues: 19, Total Discussions Started: 0, Total Discussions Answered: 0, Contributed to (last year): 15</desc>
+        <desc id="descId">Total Stars Earned: 15, Total Commits  : 15, Total PRs: 73, Total PRs Merged: 64, Merged PRs Percentage: 87.67, Total PRs Reviewed: 10, Total Issues: 19, Total Discussions Started: 0, Total Discussions Answered: 0, Contributed to (last year): 14</desc>
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
@@ -297,7 +297,7 @@
         x="219.01"
         y="12.5"
         data-testid="contribs"
-      >15</text>
+      >14</text>
     </g>
   </g>
     </svg>
