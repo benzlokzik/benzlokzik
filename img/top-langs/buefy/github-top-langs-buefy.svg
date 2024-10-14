@@ -240,7 +240,7 @@
           data-testid="lang-progress"
           x="249.88000000000002"
           y="0"
-          width="10.11"
+          width="10.12"
           height="8"
           fill="#00ADD8"
         />
@@ -251,7 +251,7 @@
     <g class="stagger" style="animation-delay: 450ms">
       <circle cx="5" cy="6" r="5" fill="#3572A5" />
       <text data-testid="lang-name" x="15" y="10" class='lang-name'>
-        Python 71.65%
+        Python 71.64%
       </text>
     </g>
   </g><g transform="translate(0, 25)">
