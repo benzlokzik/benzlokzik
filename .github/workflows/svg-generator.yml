@@ -52,7 +52,7 @@ jobs:
       - name: Upload generated snakes SVGs as artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: svg-artifacts
+          name: svg-artifacts-snakes
           path: ./img
 
   download-images:
@@ -115,7 +115,7 @@ jobs:
       - name: Upload downloaded SVGs as artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: svg-artifacts
+          name: svg-artifacts-stats
           path: ./img
 
   commit-and-push:
@@ -133,7 +133,8 @@ jobs:
       - name: Download SVGs from artifacts
         uses: actions/download-artifact@v4
         with:
-          name: svg-artifacts
+          pattern: svg-artifacts-* # Download all artifacts that start with 'svg-artifacts-'
+          merge-multiple: true
           path: ./img
 
       # Commit and push the SVGs to the repository
