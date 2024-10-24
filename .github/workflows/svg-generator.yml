@@ -36,16 +36,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
+      - name: Check if SVGs changed
+        id: check-svg-changes
+        run: |
+          git diff --exit-code ./img/grid-snakes/ || echo "changed"
 
       # Copy the generated SVGs to the ./img directory in the project root
       - name: Copy SVGs to ./img
+        if: steps.check-svg-changes.outputs.changed == 'changed'
         run: |
           mkdir -p ./img
           mkdir -p ./img/grid-snakes
           cp dist/*.svg ./img/grid-snakes
 
       - name: Upload generated snakes SVGs as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: svg-artifacts
           path: ./img
@@ -108,7 +113,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload downloaded SVGs as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: svg-artifacts
           path: ./img
@@ -126,7 +131,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download SVGs from artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: svg-artifacts
           path: ./img
@@ -137,7 +142,7 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add ./img/
-          git commit -m "Update SVGs in \`./img\` at \`$(date +"%Y-%m-%d %H:%M:%S")\`" || echo "No changes to commit"
+          git diff --cached --quiet || git commit -m "Update SVGs in \`./img\` at \`$(date +"%Y-%m-%d %H:%M:%S")\`"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
