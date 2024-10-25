@@ -39,13 +39,16 @@ jobs:
       - name: Check if SVGs changed
         id: check-svg-changes
         run: |
-          git diff --exit-code ./img/grid-snakes/ || echo "changed"
+          if git diff --quiet ./img/grid-snakes/; then
+            echo "::set-output name=changed::false"
+          else
+            echo "::set-output name=changed::true"
+          fi
 
       # Copy the generated SVGs to the ./img directory in the project root
       - name: Copy SVGs to ./img
-        if: steps.check-svg-changes.outputs.changed == 'changed'
+        if: steps.check-svg-changes.outputs.changed == 'true'
         run: |
-          mkdir -p ./img
           mkdir -p ./img/grid-snakes
           cp dist/*.svg ./img/grid-snakes
 
