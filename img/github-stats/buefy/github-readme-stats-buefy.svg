@@ -9,7 +9,7 @@
         aria-labelledby="descId"
       >
         <title id="titleId">benzlokzik's GitHub Stats, Rank: B+</title>
-        <desc id="descId">Total Stars Earned: 21, Total Commits  : 21, Total PRs: 85, Total PRs Merged: 74, Merged PRs Percentage: 87.06, Total PRs Reviewed: 2, Total Issues: 25, Total Discussions Started: 0, Total Discussions Answered: 0, Contributed to (last year): 5</desc>
+        <desc id="descId">Total Stars Earned: 22, Total Commits  : 22, Total PRs: 85, Total PRs Merged: 74, Merged PRs Percentage: 87.06, Total PRs Reviewed: 2, Total Issues: 25, Total Discussions Started: 0, Total Discussions Answered: 0, Contributed to (last year): 5</desc>
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
@@ -73,7 +73,7 @@
         stroke-dashoffset: 251.32741228718345;
       }
       to {
-        stroke-dashoffset: 122.90242266602216;
+        stroke-dashoffset: 122.06342272257368;
       }
     }
   
@@ -162,7 +162,7 @@
         x="219.01"
         y="12.5"
         data-testid="stars"
-      >21</text>
+      >22</text>
     </g>
   </g><g transform="translate(0, 25)">
     <g class="stagger" style="animation-delay: 600ms" transform="translate(25, 0)">
