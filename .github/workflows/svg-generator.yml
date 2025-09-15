@@ -1,13 +1,14 @@
+---
 name: generate snake animation and download images
 
 on:
   # run automatically every 18 hours
   schedule:
     - cron: "0 */18 * * *"
-  
+
   # allows to manually run the job at any time
-  workflow_dispatch:
-  
+  workflow_dispatch: true
+
   # run on every push on the master branch
   push:
     branches:
@@ -17,13 +18,14 @@ jobs:
   generate-snake:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    
+
     steps:
       # Check out the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Generates a snake game from a GitHub user's contributions graph, outputting an svg animation
+      # Generates a snake game from a GitHub user's contributions graph,
+      # outputting an svg animation
       - name: generate github-contribution-grid-snake.svg
         uses: Platane/snk/svg-only@v3.2.0
         id: generate-snake
@@ -39,18 +41,26 @@ jobs:
       - name: Check if SVGs changed
         id: check-svg-changes
         run: |
-          if git diff --quiet ./img/grid-snakes/; then
-            echo "::set-output name=changed::false"
+          git add ./img/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes detected in SVG files"
           else
-            echo "::set-output name=changed::true"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected in SVG files"
+            git diff --cached --name-only
           fi
 
       # Copy the generated SVGs to the ./img directory in the project root
       - name: Copy SVGs to ./img
-        if: steps.check-svg-changes.outputs.changed == 'true'
         run: |
           mkdir -p ./img/grid-snakes
-          cp dist/*.svg ./img/grid-snakes
+          if [ -f "dist/github-contribution-grid-snake.svg" ]; then
+            cp dist/*.svg ./img/grid-snakes/
+            echo "Snake SVGs copied successfully"
+          else
+            echo "No snake SVGs found to copy"
+          fi
 
       - name: Upload generated snakes SVGs as artifacts
         uses: actions/upload-artifact@v4
@@ -77,41 +87,100 @@ jobs:
           mkdir -p ./img/top-langs/buefy
           mkdir -p ./img/streak-stats/monokai
           mkdir -p ./img/streak-stats/buefy
-          
-          BASE_URL_STATS="https://github-readme-stats-benzlokzik.vercel.app/api"
+
+          BASE_URL_STATS="https://github-readme-stats.vercel.app/api"
           PARAMS_STATS="?username=benzlokzik"
           PARAMS_STATS="${PARAMS_STATS}&show_icons=true"
           PARAMS_STATS="${PARAMS_STATS}&include_all_commits=true"
           PARAMS_STATS="${PARAMS_STATS}&show=reviews,discussions_started,discussions_answered,prs_merged,prs_merged_percentage"
           PARAMS_STATS="${PARAMS_STATS}&hide_border=true"
 
-          # Download the stats SVGs
-          curl -s -o./img/github-stats/monokai/github-readme-stats-monokai.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=monokai"
-          curl -s -o./img/github-stats/buefy/github-readme-stats-buefy.svg "${BASE_URL_STATS}${PARAMS_STATS}&theme=buefy"
+          # Download the stats SVGs with error handling
+          echo "Downloading GitHub stats SVGs..."
+          STATS_MONOKAI_URL="${BASE_URL_STATS}${PARAMS_STATS}&theme=monokai"
+          STATS_BUEFY_URL="${BASE_URL_STATS}${PARAMS_STATS}&theme=buefy"
 
-          BASE_URL_LANGS="https://github-readme-stats-benzlokzik.vercel.app/api/top-langs/"
+          if ! curl -f -s -o./img/github-stats/monokai/github-readme-stats-monokai.svg \
+            "${STATS_MONOKAI_URL}"; then
+            echo "Warning: Failed to download monokai GitHub stats SVG"
+          fi
+          if ! curl -f -s -o./img/github-stats/buefy/github-readme-stats-buefy.svg \
+            "${STATS_BUEFY_URL}"; then
+            echo "Warning: Failed to download buefy GitHub stats SVG"
+          fi
+
+          BASE_URL_LANGS="https://github-readme-stats.vercel.app/api/top-langs/"
           PARAMS_LANGS="?username=benzlokzik"
           PARAMS_LANGS="${PARAMS_LANGS}&layout=compact"
           PARAMS_LANGS="${PARAMS_LANGS}&langs_count=12"
           PARAMS_LANGS="${PARAMS_LANGS}&hide_border=true"
 
-          # Download the top-langs SVGs
-          curl -s -o./img/top-langs/monokai/github-top-langs-monokai.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=monokai"
-          curl -s -o./img/top-langs/buefy/github-top-langs-buefy.svg "${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy"
+          # Download the top-langs SVGs with error handling
+          echo "Downloading top languages SVGs..."
+          LANGS_MONOKAI_URL="${BASE_URL_LANGS}${PARAMS_LANGS}&theme=monokai"
+          LANGS_BUEFY_URL="${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy"
+
+          if ! curl -f -s -o./img/top-langs/monokai/github-top-langs-monokai.svg \
+            "${LANGS_MONOKAI_URL}"; then
+            echo "Warning: Failed to download monokai top langs SVG"
+          fi
+          if ! curl -f -s -o./img/top-langs/buefy/github-top-langs-buefy.svg \
+            "${LANGS_BUEFY_URL}"; then
+            echo "Warning: Failed to download buefy top langs SVG"
+          fi
 
           BASE_URL_STREAK="https://streak-stats.demolab.com"
           USER="benzlokzik"
           HIDE_BORDER="&hide_border=true"
 
-          # Download the streak-stats SVGs
-          curl -s -o./img/streak-stats/monokai/streak-stats-monokai-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&mode=weekly"
-          curl -s -o./img/streak-stats/buefy/streak-stats-buefy-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&mode=weekly"
-          curl -s -o./img/streak-stats/monokai/streak-stats-monokai-ru-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=ru&mode=weekly"
-          curl -s -o./img/streak-stats/buefy/streak-stats-buefy-ru-weekly.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=ru&mode=weekly"
-          curl -s -o./img/streak-stats/monokai/streak-stats-monokai.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}"
-          curl -s -o./img/streak-stats/buefy/streak-stats-buefy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
-          curl -s -o./img/streak-stats/monokai/streak-stats-monokai-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=hy"
-          curl -s -o./img/streak-stats/buefy/streak-stats-buefy-hy.svg "${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=hy"
+          # Download the streak-stats SVGs with error handling
+          echo "Downloading streak stats SVGs..."
+          STREAK_WEEKLY_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&mode=weekly"
+          STREAK_WEEKLY_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&mode=weekly"
+          STREAK_RU_WEEKLY_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}"
+          STREAK_RU_WEEKLY_MONOKAI="${STREAK_RU_WEEKLY_MONOKAI}&locale=ru&mode=weekly"
+          STREAK_RU_WEEKLY_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
+          STREAK_RU_WEEKLY_BUEFY="${STREAK_RU_WEEKLY_BUEFY}&locale=ru&mode=weekly"
+          STREAK_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}"
+          STREAK_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
+          STREAK_HY_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=hy"
+          STREAK_HY_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=hy"
+
+          if ! curl -f -s -o./img/streak-stats/monokai/streak-stats-monokai-weekly.svg \
+            "${STREAK_WEEKLY_MONOKAI}"; then
+            echo "Warning: Failed to download monokai weekly streak stats SVG"
+          fi
+          if ! curl -f -s -o./img/streak-stats/buefy/streak-stats-buefy-weekly.svg \
+            "${STREAK_WEEKLY_BUEFY}"; then
+            echo "Warning: Failed to download buefy weekly streak stats SVG"
+          fi
+          if ! curl -f -s -o./img/streak-stats/monokai/streak-stats-monokai-ru-weekly.svg \
+            "${STREAK_RU_WEEKLY_MONOKAI}"; then
+            echo "Warning: Failed to download monokai Russian weekly streak stats SVG"
+          fi
+          if ! curl -f -s -o./img/streak-stats/buefy/streak-stats-buefy-ru-weekly.svg \
+            "${STREAK_RU_WEEKLY_BUEFY}"; then
+            echo "Warning: Failed to download buefy Russian weekly streak stats SVG"
+          fi
+          if ! curl -f -s -o./img/streak-stats/monokai/streak-stats-monokai.svg \
+            "${STREAK_MONOKAI}"; then
+            echo "Warning: Failed to download monokai streak stats SVG"
+          fi
+          if ! curl -f -s -o./img/streak-stats/buefy/streak-stats-buefy.svg \
+            "${STREAK_BUEFY}"; then
+            echo "Warning: Failed to download buefy streak stats SVG"
+          fi
+          if ! curl -f -s -o./img/streak-stats/monokai/streak-stats-monokai-hy.svg \
+            "${STREAK_HY_MONOKAI}"; then
+            echo "Warning: Failed to download monokai Armenian streak stats SVG"
+          fi
+          if ! curl -f -s -o./img/streak-stats/buefy/streak-stats-buefy-hy.svg \
+            "${STREAK_HY_BUEFY}"; then
+            echo "Warning: Failed to download buefy Armenian streak stats SVG"
+          fi
+
+          echo "Download process completed. Checking downloaded files..."
+          find ./img -name "*.svg" -type f -exec ls -la {} \;
 
         continue-on-error: true
 
@@ -124,7 +193,8 @@ jobs:
   commit-and-push:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: [generate-snake, download-images]  # This job depends on the completion of the previous two jobs
+    # This job depends on the completion of the previous two jobs
+    needs: [generate-snake, download-images]
     if: |
       always()
 
@@ -136,7 +206,8 @@ jobs:
       - name: Download SVGs from artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: svg-artifacts-* # Download all artifacts that start with 'svg-artifacts-'
+          # Download all artifacts that start with 'svg-artifacts-'
+          pattern: svg-artifacts-*
           merge-multiple: true
           path: ./img
 
@@ -146,7 +217,14 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add ./img/
-          git diff --cached --quiet || git commit -m "Update SVGs in \`./img\` at \`$(date +"%Y-%m-%d %H:%M:%S")\`"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            echo "Changes detected, committing..."
+            git diff --cached --name-only
+            git commit -m "Update SVGs in \`./img\` at \`$(date +"%Y-%m-%d %H:%M:%S")\`"
+            git push
+            echo "Changes committed and pushed successfully"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
