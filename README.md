@@ -9,7 +9,7 @@
 
 ###### **Wow, you're visitor number**
 
-<img src="https://count.getloli.com/@benzlokzik?theme=booru-twifanartsfw" />
+<img src="https://count.getloli.com/@benzlokzik?theme=booru-twifanartsfw&align=center&scale=1&pixelated=1&darkmode=auto" alt="benzlokzik"/>
 
 
 
