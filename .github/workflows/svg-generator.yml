@@ -77,6 +77,7 @@ jobs:
         uses: actions/checkout@v4
 
       # Create necessary directories and download images using curl
+      # Add cache-busting timestamp to prevent stale data from CDN/proxy caches
       - name: Create directories and download images
         id: download-images
         run: |
@@ -87,43 +88,76 @@ jobs:
           mkdir -p ./img/streak-stats/monokai
           mkdir -p ./img/streak-stats/buefy
 
-          BASE_URL_STATS="https://github-readme-stats.vercel.app/api"
+          BASE_URL_STATS="https://github-readme-stats-w0ht-4yrydr66s-benzlokziks-projects.vercel.app/api"
           PARAMS_STATS="?username=benzlokzik"
           PARAMS_STATS="${PARAMS_STATS}&show_icons=true"
           PARAMS_STATS="${PARAMS_STATS}&include_all_commits=true"
           PARAMS_STATS="${PARAMS_STATS}&show=reviews,discussions_started,discussions_answered,prs_merged,prs_merged_percentage"
           PARAMS_STATS="${PARAMS_STATS}&hide_border=true"
 
-          # Download the stats SVGs with error handling
+          # Download the stats SVGs with error handling and aggressive cache-busting
           echo "Downloading GitHub stats SVGs..."
-          STATS_MONOKAI_URL="${BASE_URL_STATS}${PARAMS_STATS}&theme=monokai"
-          STATS_BUEFY_URL="${BASE_URL_STATS}${PARAMS_STATS}&theme=buefy"
+          # Use multiple cache-busting parameters and random value to force fresh data
+          TIMESTAMP=$(date +%s)
+          RANDOM_ID=$(openssl rand -hex 4)
+          CACHE_BUST="&v=${TIMESTAMP}&_=${RANDOM_ID}&cache_bust=${TIMESTAMP}"
+          STATS_MONOKAI_URL="${BASE_URL_STATS}${PARAMS_STATS}&theme=monokai${CACHE_BUST}"
+          STATS_BUEFY_URL="${BASE_URL_STATS}${PARAMS_STATS}&theme=buefy${CACHE_BUST}"
 
-          if ! curl -f -s -o./img/github-stats/monokai/github-readme-stats-monokai.svg \
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/github-stats/monokai/github-readme-stats-monokai.svg \
             "${STATS_MONOKAI_URL}"; then
             echo "Warning: Failed to download monokai GitHub stats SVG"
           fi
-          if ! curl -f -s -o./img/github-stats/buefy/github-readme-stats-buefy.svg \
+          sleep 1  # Small delay to avoid rate limiting
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/github-stats/buefy/github-readme-stats-buefy.svg \
             "${STATS_BUEFY_URL}"; then
             echo "Warning: Failed to download buefy GitHub stats SVG"
           fi
 
-          BASE_URL_LANGS="https://github-readme-stats.vercel.app/api/top-langs/"
+          BASE_URL_LANGS="https://github-readme-stats-w0ht-4yrydr66s-benzlokziks-projects.vercel.app/api/top-langs/"
           PARAMS_LANGS="?username=benzlokzik"
           PARAMS_LANGS="${PARAMS_LANGS}&layout=compact"
           PARAMS_LANGS="${PARAMS_LANGS}&langs_count=12"
           PARAMS_LANGS="${PARAMS_LANGS}&hide_border=true"
 
-          # Download the top-langs SVGs with error handling
+          # Download the top-langs SVGs with error handling and aggressive cache-busting
           echo "Downloading top languages SVGs..."
-          LANGS_MONOKAI_URL="${BASE_URL_LANGS}${PARAMS_LANGS}&theme=monokai"
-          LANGS_BUEFY_URL="${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy"
+          RANDOM_ID=$(openssl rand -hex 4)
+          LANGS_CACHE_BUST="&v=${TIMESTAMP}&_=${RANDOM_ID}&cache_bust=${TIMESTAMP}"
+          LANGS_MONOKAI_URL="${BASE_URL_LANGS}${PARAMS_LANGS}&theme=monokai${LANGS_CACHE_BUST}"
+          LANGS_BUEFY_URL="${BASE_URL_LANGS}${PARAMS_LANGS}&theme=buefy${LANGS_CACHE_BUST}"
 
-          if ! curl -f -s -o./img/top-langs/monokai/github-top-langs-monokai.svg \
+          sleep 1  # Small delay to avoid rate limiting
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/top-langs/monokai/github-top-langs-monokai.svg \
             "${LANGS_MONOKAI_URL}"; then
             echo "Warning: Failed to download monokai top langs SVG"
           fi
-          if ! curl -f -s -o./img/top-langs/buefy/github-top-langs-buefy.svg \
+          sleep 1
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/top-langs/buefy/github-top-langs-buefy.svg \
             "${LANGS_BUEFY_URL}"; then
             echo "Warning: Failed to download buefy top langs SVG"
           fi
@@ -132,54 +166,135 @@ jobs:
           USER="benzlokzik"
           HIDE_BORDER="&hide_border=true"
 
-          # Download the streak-stats SVGs with error handling
+          # Download the streak-stats SVGs with error handling and aggressive cache-busting
           echo "Downloading streak stats SVGs..."
-          STREAK_WEEKLY_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&mode=weekly"
-          STREAK_WEEKLY_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&mode=weekly"
-          STREAK_RU_WEEKLY_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}"
-          STREAK_RU_WEEKLY_MONOKAI="${STREAK_RU_WEEKLY_MONOKAI}&locale=ru&mode=weekly"
-          STREAK_RU_WEEKLY_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
-          STREAK_RU_WEEKLY_BUEFY="${STREAK_RU_WEEKLY_BUEFY}&locale=ru&mode=weekly"
-          STREAK_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}"
-          STREAK_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}"
-          STREAK_HY_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=hy"
-          STREAK_HY_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=hy"
+          STREAK_RANDOM=$(openssl rand -hex 4)
+          STREAK_CACHE_BUST="&v=${TIMESTAMP}&_=${STREAK_RANDOM}&cache_bust=${TIMESTAMP}"
+          STREAK_WEEKLY_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&mode=weekly${STREAK_CACHE_BUST}"
+          STREAK_WEEKLY_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&mode=weekly${STREAK_CACHE_BUST}"
+          STREAK_RU_WEEKLY_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=ru&mode=weekly${STREAK_CACHE_BUST}"
+          STREAK_RU_WEEKLY_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=ru&mode=weekly${STREAK_CACHE_BUST}"
+          STREAK_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}${STREAK_CACHE_BUST}"
+          STREAK_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}${STREAK_CACHE_BUST}"
+          STREAK_HY_MONOKAI="${BASE_URL_STREAK}?user=${USER}&theme=monokai${HIDE_BORDER}&locale=hy${STREAK_CACHE_BUST}"
+          STREAK_HY_BUEFY="${BASE_URL_STREAK}?user=${USER}&theme=buefy${HIDE_BORDER}&locale=hy${STREAK_CACHE_BUST}"
 
-          if ! curl -f -s -o./img/streak-stats/monokai/streak-stats-monokai-weekly.svg \
+          sleep 1
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/streak-stats/monokai/streak-stats-monokai-weekly.svg \
             "${STREAK_WEEKLY_MONOKAI}"; then
             echo "Warning: Failed to download monokai weekly streak stats SVG"
           fi
-          if ! curl -f -s -o./img/streak-stats/buefy/streak-stats-buefy-weekly.svg \
+          sleep 1
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/streak-stats/buefy/streak-stats-buefy-weekly.svg \
             "${STREAK_WEEKLY_BUEFY}"; then
             echo "Warning: Failed to download buefy weekly streak stats SVG"
           fi
-          if ! curl -f -s -o./img/streak-stats/monokai/streak-stats-monokai-ru-weekly.svg \
+          sleep 1
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/streak-stats/monokai/streak-stats-monokai-ru-weekly.svg \
             "${STREAK_RU_WEEKLY_MONOKAI}"; then
             echo "Warning: Failed to download monokai Russian weekly streak stats SVG"
           fi
-          if ! curl -f -s -o./img/streak-stats/buefy/streak-stats-buefy-ru-weekly.svg \
+          sleep 1
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/streak-stats/buefy/streak-stats-buefy-ru-weekly.svg \
             "${STREAK_RU_WEEKLY_BUEFY}"; then
             echo "Warning: Failed to download buefy Russian weekly streak stats SVG"
           fi
-          if ! curl -f -s -o./img/streak-stats/monokai/streak-stats-monokai.svg \
+          sleep 1
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/streak-stats/monokai/streak-stats-monokai.svg \
             "${STREAK_MONOKAI}"; then
             echo "Warning: Failed to download monokai streak stats SVG"
           fi
-          if ! curl -f -s -o./img/streak-stats/buefy/streak-stats-buefy.svg \
+          sleep 1
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/streak-stats/buefy/streak-stats-buefy.svg \
             "${STREAK_BUEFY}"; then
             echo "Warning: Failed to download buefy streak stats SVG"
           fi
-          if ! curl -f -s -o./img/streak-stats/monokai/streak-stats-monokai-hy.svg \
+          sleep 1
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/streak-stats/monokai/streak-stats-monokai-hy.svg \
             "${STREAK_HY_MONOKAI}"; then
             echo "Warning: Failed to download monokai Armenian streak stats SVG"
           fi
-          if ! curl -f -s -o./img/streak-stats/buefy/streak-stats-buefy-hy.svg \
+          sleep 1
+          if ! curl -f -s --compressed \
+            -H "Cache-Control: no-cache, no-store, must-revalidate" \
+            -H "Pragma: no-cache" \
+            -H "Expires: 0" \
+            -H "If-None-Match: *" \
+            --max-time 30 \
+            -o./img/streak-stats/buefy/streak-stats-buefy-hy.svg \
             "${STREAK_HY_BUEFY}"; then
             echo "Warning: Failed to download buefy Armenian streak stats SVG"
           fi
 
           echo "Download process completed. Checking downloaded files..."
           find ./img -name "*.svg" -type f -exec ls -la {} \;
+          
+          # Validate that critical files were downloaded
+          MISSING_FILES=0
+          REQUIRED_FILES=(
+            "./img/github-stats/monokai/github-readme-stats-monokai.svg"
+            "./img/github-stats/buefy/github-readme-stats-buefy.svg"
+            "./img/top-langs/monokai/github-top-langs-monokai.svg"
+            "./img/top-langs/buefy/github-top-langs-buefy.svg"
+            "./img/streak-stats/monokai/streak-stats-monokai.svg"
+            "./img/streak-stats/buefy/streak-stats-buefy.svg"
+          )
+          
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$file" ] || [ ! -s "$file" ]; then
+              echo "Error: Required file missing or empty: $file"
+              MISSING_FILES=$((MISSING_FILES + 1))
+            fi
+          done
+          
+          if [ $MISSING_FILES -gt 0 ]; then
+            echo "Warning: $MISSING_FILES required file(s) are missing or empty. Some downloads may have failed."
+            echo "This may result in stale data being committed if artifacts contain old files."
+          else
+            echo "All required files downloaded successfully."
+          fi
 
         continue-on-error: true
 
@@ -198,9 +313,12 @@ jobs:
       always()
 
     steps:
-      # Check out the repository
+      # Check out the repository with write permissions
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       - name: Download SVGs from artifacts
         uses: actions/download-artifact@v4
@@ -215,14 +333,24 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
+          
+          # Verify that we have actual SVG files before committing
+          SVG_COUNT=$(find ./img -name "*.svg" -type f 2>/dev/null | wc -l)
+          if [ "$SVG_COUNT" -eq 0 ]; then
+            echo "Error: No SVG files found in ./img directory. Aborting commit to prevent data loss."
+            exit 1
+          fi
+          
+          echo "Found $SVG_COUNT SVG file(s) to process"
           git add ./img/
+          
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
             echo "Changes detected, committing..."
             git diff --cached --name-only
             git commit -m "Update SVGs in \`./img\` at \`$(date +"%Y-%m-%d %H:%M:%S")\`"
-            git push
+            git push origin HEAD:main
             echo "Changes committed and pushed successfully"
           fi
         env:
