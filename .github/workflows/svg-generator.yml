@@ -37,19 +37,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-      - name: Check if SVGs changed
-        id: check-svg-changes
-        run: |
-          git add ./img/
-          if git diff --cached --quiet; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "No changes detected in SVG files"
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "Changes detected in SVG files"
-            git diff --cached --name-only
-          fi
-
       # Copy the generated SVGs to the ./img directory in the project root
       - name: Copy SVGs to ./img
         run: |
@@ -110,7 +97,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/github-stats/monokai/github-readme-stats-monokai.svg \
+            -o ./img/github-stats/monokai/github-readme-stats-monokai.svg \
             "${STATS_MONOKAI_URL}"; then
             echo "Warning: Failed to download monokai GitHub stats SVG"
           fi
@@ -121,7 +108,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/github-stats/buefy/github-readme-stats-buefy.svg \
+            -o ./img/github-stats/buefy/github-readme-stats-buefy.svg \
             "${STATS_BUEFY_URL}"; then
             echo "Warning: Failed to download buefy GitHub stats SVG"
           fi
@@ -146,7 +133,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/top-langs/monokai/github-top-langs-monokai.svg \
+            -o ./img/top-langs/monokai/github-top-langs-monokai.svg \
             "${LANGS_MONOKAI_URL}"; then
             echo "Warning: Failed to download monokai top langs SVG"
           fi
@@ -157,7 +144,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/top-langs/buefy/github-top-langs-buefy.svg \
+            -o ./img/top-langs/buefy/github-top-langs-buefy.svg \
             "${LANGS_BUEFY_URL}"; then
             echo "Warning: Failed to download buefy top langs SVG"
           fi
@@ -186,7 +173,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/streak-stats/monokai/streak-stats-monokai-weekly.svg \
+            -o ./img/streak-stats/monokai/streak-stats-monokai-weekly.svg \
             "${STREAK_WEEKLY_MONOKAI}"; then
             echo "Warning: Failed to download monokai weekly streak stats SVG"
           fi
@@ -197,7 +184,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/streak-stats/buefy/streak-stats-buefy-weekly.svg \
+            -o ./img/streak-stats/buefy/streak-stats-buefy-weekly.svg \
             "${STREAK_WEEKLY_BUEFY}"; then
             echo "Warning: Failed to download buefy weekly streak stats SVG"
           fi
@@ -208,7 +195,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/streak-stats/monokai/streak-stats-monokai-ru-weekly.svg \
+            -o ./img/streak-stats/monokai/streak-stats-monokai-ru-weekly.svg \
             "${STREAK_RU_WEEKLY_MONOKAI}"; then
             echo "Warning: Failed to download monokai Russian weekly streak stats SVG"
           fi
@@ -219,7 +206,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/streak-stats/buefy/streak-stats-buefy-ru-weekly.svg \
+            -o ./img/streak-stats/buefy/streak-stats-buefy-ru-weekly.svg \
             "${STREAK_RU_WEEKLY_BUEFY}"; then
             echo "Warning: Failed to download buefy Russian weekly streak stats SVG"
           fi
@@ -230,7 +217,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/streak-stats/monokai/streak-stats-monokai.svg \
+            -o ./img/streak-stats/monokai/streak-stats-monokai.svg \
             "${STREAK_MONOKAI}"; then
             echo "Warning: Failed to download monokai streak stats SVG"
           fi
@@ -241,7 +228,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/streak-stats/buefy/streak-stats-buefy.svg \
+            -o ./img/streak-stats/buefy/streak-stats-buefy.svg \
             "${STREAK_BUEFY}"; then
             echo "Warning: Failed to download buefy streak stats SVG"
           fi
@@ -252,7 +239,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/streak-stats/monokai/streak-stats-monokai-hy.svg \
+            -o ./img/streak-stats/monokai/streak-stats-monokai-hy.svg \
             "${STREAK_HY_MONOKAI}"; then
             echo "Warning: Failed to download monokai Armenian streak stats SVG"
           fi
@@ -263,7 +250,7 @@ jobs:
             -H "Expires: 0" \
             -H "If-None-Match: *" \
             --max-time 30 \
-            -o./img/streak-stats/buefy/streak-stats-buefy-hy.svg \
+            -o ./img/streak-stats/buefy/streak-stats-buefy-hy.svg \
             "${STREAK_HY_BUEFY}"; then
             echo "Warning: Failed to download buefy Armenian streak stats SVG"
           fi
