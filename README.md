@@ -62,99 +62,113 @@ Here are some ideas to get you started:
 
 ```mermaid
 graph TD
-    A[benzlokzik]
-    B[C++]
-    C1[C++ Libraries]
-    C2[GTests]
-    C3[SFML]
-    C4[stb_image]
-    C5[libarchive]
-    D[Python Poetry]
-    E1[Python Libraries]
-    E2[Python Frameworks]
-    E3[Python Unittests]
-    E4[numpy]
-    E5[pandas]
-    E6[requests]
-    E7[Flask]
-    E8[TensorFlow]
-    E9[matplotlib]
-    E10[scikit-learn]
-    F[Rust]
-    G[Docker]
-    H[FastAPI]
-    I[Backend]
-    J[DevOps]
-    K[GitHub Actions]
-    L[Pipelines]
-    M[Database]
-    N[SQL]
-    O[SurrealDB]
-    P[SurrealQL]
-    Q[PostgreSQL]
-    R[CI/CD]
-    S[WASM]
-    T[REST API]
-    U[GitHub]
-    V[Git]
-    W[Operating Systems]
-    X[Manjaro]
-    Y[Ubuntu]
-    Z[Debian]
-    AA[Windows]
-    
-    A --> B
-    A --> D
-    A --> F
-    A --> G
-    A --> H
-    A --> I
-    A --> J
-    A --> M
-    A --> R
-    A --> S
-    A --> T
-    A --> U
-    A --> V
-    A --> W
-    
-    B --> C1
-    C1 --> C2
-    C1 --> C3
-    C1 --> C4
-    C1 --> C5
-    
-    D --> E1
-    E1 --> E4
-    E1 --> E5
-    E1 --> E6
-    E1 --> E7
-    E1 --> E8
-    E1 --> E9
-    E1 --> E10
-    D --> E2
-    D --> E3
-    
-    I --> H
-    I --> G
-    I --> T
-    
-    J --> K
-    J --> L
-    J --> G
-    J --> R
-    
-    M --> N
-    M --> O
-    O --> P
-    N --> Q
-    
-    W --> X
-    W --> Y
-    W --> Z
-    W --> AA
-    
-    style A fill:#f9a825,stroke:#333,stroke-width:2px;
+    A[benzlokzik ⚡]
+
+    %% Core pillars (Wow focus)
+    A --> ML["ML / AI"]
+    A --> PY["Python (Senior)"]
+    A --> VOICE[Voice Tech]
+    A --> BE["Backend (Senior Stack)"]
+    A --> DEVOPS["Deploy / DevOps"]
+    A --> GLSL["Self-written Shaders (GLSL)"]
+    A --> GO["Go (forced 😄)"]
+    A --> WEB["Web / Frontend"]
+    A --> SEC["Security / CTFs"]
+    A --> VCS["VCS / Platforms"]
+    A --> OS[Operating Systems]
+
+    %% ML / AI
+    ML --> PT[PyTorch]
+    ML --> TR[Transformers]
+    ML --> ONNX[ONNX]
+    ML --> TRT[Triton Inference Server]
+    ML --> MLOPS[MLOps]
+    ML --> HROPS[HROps]
+    ML --> F5[F5-TTS]
+
+    %% Python ecosystem
+    PY --> UV[uv]
+    PY --> RUFF[ruff]
+    PY --> PYFW[Frameworks]
+    PY --> PYTOOLS[Tooling]
+
+    PYFW --> FAST[FastAPI]
+    PYFW --> DJ[Django]
+
+    PYTOOLS --> TESTS[Testing]
+    TESTS --> UT[Unittests]
+    PYTOOLS --> DATA["numpy / pandas / sklearn"]
+    PYTOOLS --> VIZ[matplotlib]
+
+    %% Voice Tech (ties into ML)
+    VOICE --> ASR["TTS / Speech Pipelines"]
+    ASR --> F5
+    VOICE --> INFER["Realtime/Low-latency Inference"]
+    INFER --> TRT
+    INFER --> ONNX
+
+    %% Backend + Deploy
+    BE --> API["REST / gRPC"]
+    BE --> DB[Databases]
+    DB --> PG[PostgreSQL]
+    DB --> SQL[SQL]
+    BE --> SRV["Web Servers / Edge"]
+    SRV --> CADDY[Caddy]
+
+    DEVOPS --> DOCKER[Docker]
+    DEVOPS --> K8S[Kubernetes]
+    DEVOPS --> CICD["CI/CD"]
+    CICD --> GL[GitLab CI]
+    CICD --> GHA[GitHub Actions]
+    DEVOPS --> OBS[Observability]
+    DEVOPS --> SECOPS[Secure Deploy]
+
+    %% Web / Frontend
+    WEB --> SV[Svelte]
+    WEB --> SVK[SvelteKit]
+    WEB --> JS[JavaScript]
+    WEB --> TS[TypeScript]
+
+    %% VCS / Platforms (priority)
+    VCS --> GLAB["GitLab ⭐ (primary)"]
+    VCS --> GH[GitHub]
+
+    %% OS (macOS high)
+    OS --> MAC["macOS (current)"]
+    OS --> LNX[Linux]
+    OS --> WIN[Windows]
+    LNX --> ARCH[Arch-based]
+    LNX --> DEB["Debian/Ubuntu"]
+
+    %% Existing interests kept (minus removals)
+    A --> CPP["C++"]
+    CPP --> CPPLIBS["C++ Libraries"]
+    CPPLIBS --> GTEST[GTests]
+    CPPLIBS --> SFML[SFML]
+    CPPLIBS --> STB[stb_image]
+
+    %% Styling (Wow)
+    style A fill:#f9a825,stroke:#111,stroke-width:3px,color:#111;
+
+    style ML fill:#ff6f61,stroke:#111,stroke-width:2px;
+    style PY fill:#6c63ff,stroke:#111,stroke-width:2px;
+    style VOICE fill:#00bcd4,stroke:#111,stroke-width:2px;
+    style GLSL fill:#ff9800,stroke:#111,stroke-width:2px;
+    style BE fill:#4caf50,stroke:#111,stroke-width:2px;
+    style DEVOPS fill:#607d8b,stroke:#111,stroke-width:2px;
+    style GO fill:#00acc1,stroke:#111,stroke-width:2px;
+    style WEB fill:#e91e63,stroke:#111,stroke-width:2px;
+    style SEC fill:#9c27b0,stroke:#111,stroke-width:2px;
+    style VCS fill:#f06292,stroke:#111,stroke-width:2px;
+    style OS fill:#8d6e63,stroke:#111,stroke-width:2px;
+
+    %% Emphasis nodes
+    style GLAB fill:#fc6d26,stroke:#111,stroke-width:3px,color:#111;
+    style PT fill:#ee4c2c,stroke:#111,stroke-width:3px,color:#111;
+    style TR fill:#ffcc80,stroke:#111,stroke-width:3px,color:#111;
+    style UV fill:#b3e5fc,stroke:#111,stroke-width:3px,color:#111;
+    style RUFF fill:#c8e6c9,stroke:#111,stroke-width:3px,color:#111;
+    style MAC fill:#d1c4e9,stroke:#111,stroke-width:3px,color:#111;
 ```
 
 </details>
