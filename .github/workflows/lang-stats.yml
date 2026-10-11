@@ -1,0 +1,53 @@
+name: generate language stats
+
+on:
+  # run automatically every day
+  schedule:
+    - cron: "30 3 * * *"
+
+  # allows to manually run the job at any time
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  lang-stats:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      # linguist's native extensions need ICU and CMake
+      - name: Install github-linguist
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq cmake pkg-config libicu-dev
+          gem install -N github-linguist -v 9.7.0
+
+      # Counts bytes you wrote per language with git blame and renders ./img/lang-stats/{dark,light}.svg
+      - name: Generate language stats
+        run: ruby scripts/lang-stats.rb
+        env:
+          GH_TOKEN: ${{ secrets.LANG_STATS_TOKEN }}
+          GH_USER: ${{ github.repository_owner }}
+
+      - name: Commit and push SVGs
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add ./img/lang-stats/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update language stats at \`$(date +"%Y-%m-%d %H:%M:%S")\`"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
