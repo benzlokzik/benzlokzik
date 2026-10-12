@@ -8,6 +8,7 @@ require "open3"
 require "tmpdir"
 require "linguist"
 require "cgi"
+require "set"
 
 TOKEN = ENV.fetch("GH_TOKEN")
 USER = ENV.fetch("GH_USER")
@@ -25,6 +26,10 @@ def graphql(query, variables = {})
   req = Net::HTTP::Post.new(uri, "Authorization" => "bearer #{TOKEN}", "Content-Type" => "application/json")
   req.body = { query: query, variables: variables }.to_json
   res = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.request(req) }
+  scopes = res["x-oauth-scopes"].to_s.split(/,\s*/)
+  unless scopes.include?("repo") && (scopes & %w[read:org write:org admin:org]).any?
+    abort "GH_TOKEN needs the repo and read:org scopes, has: #{scopes.join(", ")}"
+  end
   body = JSON.parse(res.body)
   raise "GraphQL error: #{body["errors"] || res.code}" if body["errors"] || !res.is_a?(Net::HTTPSuccess)
   body["data"]
@@ -89,6 +94,9 @@ def authored_bytes(dir, path, emails)
   bytes
 end
 
+SEEN_BLOBS = Set.new
+SEEN_LOCK = Mutex.new
+
 def repo_stats(name, emails)
   Dir.mktmpdir do |dir|
     url = "https://x-access-token:#{TOKEN}@github.com/#{name}.git"
@@ -98,8 +106,13 @@ def repo_stats(name, emails)
     rugged = Rugged::Repository.new(dir)
     return {} if rugged.empty?
 
+    tree = rugged.head.target.tree
     files = Linguist::Repository.new(rugged, rugged.head.target_id).breakdown_by_file
-    files.to_h { |lang, paths| [lang, paths.sum { |p| authored_bytes(dir, p, emails) }] }
+    files.to_h do |lang, paths|
+      # identical file contents (same blob hash) count once across all repos
+      unique = paths.select { |p| SEEN_LOCK.synchronize { SEEN_BLOBS.add?(tree.path(p)[:oid]) } }
+      [lang, unique.sum { |p| authored_bytes(dir, p, emails) }]
+    end
   end
 end
 
