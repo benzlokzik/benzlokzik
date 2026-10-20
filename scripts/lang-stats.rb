@@ -1,5 +1,6 @@
 # Counts bytes of code authored by a user per language (git blame over
 # linguist-classified files) and renders top-languages SVG cards.
+# Jupyter notebooks count only their cell sources, under the kernel language.
 #
 # Env: GH_TOKEN (repo + read:org), GH_USER, OUT_DIR, LANGS_COUNT, JOBS
 require "json"
@@ -77,21 +78,59 @@ def repos_and_emails
   [repos, emails.reject(&:empty?).uniq]
 end
 
-# Bytes of lines in `path` whose blamed author email is in `emails`
-def authored_bytes(dir, path, emails)
+# Yields [blamed author email, line text] for each line of `path` at HEAD
+def blame_lines(dir, path)
   out, status = Open3.capture2("git", "-C", dir, "blame", "-w", "-M", "-C", "--line-porcelain", "HEAD", "--", path)
-  return 0 unless status.success?
+  return unless status.success?
 
-  bytes = 0
   author = nil
   out.force_encoding(Encoding::BINARY).each_line do |line|
     if line.start_with?("author-mail ")
       author = line[12..].strip.delete("<>").downcase
     elsif line.start_with?("\t")
-      bytes += line.bytesize - 1 if emails.include?(author)
+      yield author, line[1..]
     end
   end
+end
+
+# Bytes of lines in `path` whose blamed author email is in `emails`
+def authored_bytes(dir, path, emails)
+  bytes = 0
+  blame_lines(dir, path) { |author, text| bytes += text.bytesize if emails.include?(author) }
   bytes
+end
+
+# Decoded bytes of a JSON string or array of strings on one notebook line
+def json_text_bytes(text)
+  value = JSON.parse(text.strip.chomp(","))
+  Array(value).sum { |s| s.to_s.bytesize }
+rescue JSON::ParserError
+  0
+end
+
+# Bytes of cell sources in notebook `path` blamed on `emails`, with the kernel language.
+# Outputs, metadata and the JSON wrapping are not code and are skipped.
+def notebook_authored_bytes(dir, path, emails)
+  nb = JSON.parse(File.binread(File.join(dir, path)))
+  kernel = nb.dig("metadata", "kernelspec", "language") || nb.dig("metadata", "language_info", "name")
+  lang = (Linguist::Language.find_by_alias(kernel.to_s.downcase) || Linguist::Language[kernel.to_s])&.name
+  bytes = 0
+  in_source = false
+  blame_lines(dir, path) do |author, text|
+    if in_source
+      in_source = false if text.lstrip.start_with?("]")
+    elsif (m = text.match(/\A\s*"source":\s*(.*)$/))
+      text = m[1]
+      in_source = text.start_with?("[") && !text.rstrip.chomp(",").end_with?("]")
+      next if in_source
+    else
+      next
+    end
+    bytes += json_text_bytes(text) if emails.include?(author)
+  end
+  [lang || "Jupyter Notebook", bytes]
+rescue JSON::ParserError
+  ["Jupyter Notebook", authored_bytes(dir, path, emails)]
 end
 
 SEEN_BLOBS = Set.new
@@ -108,11 +147,21 @@ def repo_stats(name, emails)
 
     tree = rugged.head.target.tree
     files = Linguist::Repository.new(rugged, rugged.head.target_id).breakdown_by_file
-    files.to_h do |lang, paths|
-      # identical file contents (same blob hash) count once across all repos
-      unique = paths.select { |p| SEEN_LOCK.synchronize { SEEN_BLOBS.add?(tree.path(p)[:oid]) } }
-      [lang, unique.sum { |p| authored_bytes(dir, p, emails) }]
+    stats = Hash.new(0)
+    files.each do |lang, paths|
+      paths.each do |p|
+        # identical file contents (same blob hash) count once across all repos
+        next unless SEEN_LOCK.synchronize { SEEN_BLOBS.add?(tree.path(p)[:oid]) }
+
+        if lang == "Jupyter Notebook"
+          nb_lang, bytes = notebook_authored_bytes(dir, p, emails)
+          stats[nb_lang] += bytes
+        else
+          stats[lang] += authored_bytes(dir, p, emails)
+        end
+      end
     end
+    stats
   end
 end
 
